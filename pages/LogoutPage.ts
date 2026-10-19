@@ -12,7 +12,7 @@ export class LogoutPage {
         this.page = page;
 
         // Initialize locators with CSS selectors
-        this.headingAccountLogout = page.locator('#content h1');
+        this.headingAccountLogout = page.locator('#content h1', { hasText: 'Account Logout' });
         this.btnContinue = page.locator('#content a.btn.btn-primary');
         this.logoutConfirmationText = page.locator('#content p').first();
     }
@@ -30,7 +30,7 @@ export class LogoutPage {
      */
     async isLogoutPageExists(): Promise<boolean> {
         try {
-            await this.headingAccountLogout.waitFor({ state: 'visible', timeout: 10000 });
+            await this.headingAccountLogout.waitFor({ state: 'visible', timeout: 15000 });
             return await this.headingAccountLogout.isVisible();
         } catch (error) {
             console.log(`Error checking logout page: ${error}`);
@@ -43,6 +43,7 @@ export class LogoutPage {
      * @returns Promise<string> - Confirmation text
      */
     async getLogoutConfirmationText(): Promise<string> {
+        await this.headingAccountLogout.waitFor({ state: 'visible', timeout: 15000 });
         return await this.logoutConfirmationText.innerText();
     }
 }

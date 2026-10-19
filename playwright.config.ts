@@ -1,11 +1,11 @@
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  timeout: 60 * 1000, // 60000 ms (60 secs) for live demo environment stability
+  timeout: 90 * 1000, // 90 secs for live demo environment stability
   testDir: "./tests",
   fullyParallel: true,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  retries: process.env.CI ? 2 : 1,
+  workers: process.env.CI ? 1 : 3,
   reporter: [
     ["list"], // Detailed console output
     //['line'],                         // One-line progress output

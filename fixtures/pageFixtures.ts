@@ -28,7 +28,7 @@ type PageFixtures = {
 
 export const test = base.extend<PageFixtures>({
     homePage: async ({ page }, use) => {
-        await page.goto(APP_URL);
+        await page.goto(APP_URL, { waitUntil: 'domcontentloaded' });
         await use(new HomePage(page));
     },
     loginPage: async ({ page }, use) => {

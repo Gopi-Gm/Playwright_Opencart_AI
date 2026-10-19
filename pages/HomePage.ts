@@ -64,6 +64,7 @@ export class HomePage {
      */
     async isHomePageExists(): Promise<boolean> {
         try {
+            await this.lnkMyAccount.waitFor({ state: 'visible', timeout: 15000 });
             return await this.lnkMyAccount.isVisible();
         } catch (error) {
             console.log(`Error checking homepage: ${error}`);
@@ -77,6 +78,7 @@ export class HomePage {
      */
     async isLoginLinkVisible(): Promise<boolean> {
         try {
+            await this.lnkLogin.waitFor({ state: 'visible', timeout: 10000 });
             return await this.lnkLogin.isVisible();
         } catch (error) {
             console.log(`Error checking login link: ${error}`);

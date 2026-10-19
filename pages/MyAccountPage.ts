@@ -22,6 +22,7 @@ export class MyAccountPage {
      */
     async clickLogout(): Promise<void> {
         await this.lnkMyAccountNav.click();
+        await this.lnkLogout.waitFor({ state: 'visible', timeout: 5000 });
         await this.lnkLogout.click();
     }
 
@@ -31,6 +32,7 @@ export class MyAccountPage {
      */
     async isMyAccountPageExists(): Promise<boolean> {
         try {
+            await this.headingMyAccount.waitFor({ state: 'visible', timeout: 15000 });
             return await this.headingMyAccount.isVisible();
         } catch (error) {
             console.log(`Error checking My Account page: ${error}`);

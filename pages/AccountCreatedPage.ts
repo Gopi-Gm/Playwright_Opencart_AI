@@ -11,7 +11,7 @@ export class AccountCreatedPage {
         this.page = page;
 
         // Initialize locators with CSS selectors
-        this.headingAccountCreated = page.locator('#content h1');
+        this.headingAccountCreated = page.locator('#content h1', { hasText: 'Your Account Has Been Created!' });
         this.btnContinue = page.locator('#content a.btn.btn-primary');
     }
 
@@ -34,6 +34,7 @@ export class AccountCreatedPage {
      * @returns Promise<string> - Heading text
      */
     async getHeadingText(): Promise<string> {
+        await this.headingAccountCreated.waitFor({ state: 'visible', timeout: 15000 });
         return await this.headingAccountCreated.innerText();
     }
 

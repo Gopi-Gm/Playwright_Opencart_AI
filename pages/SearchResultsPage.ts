@@ -29,7 +29,8 @@ export class SearchResultsPage {
      */
     async hasResults(): Promise<boolean> {
         try {
-            return (await this.productLayout.count()) > 0;
+            await this.productLayout.first().waitFor({ state: 'visible', timeout: 10000 });
+            return true;
         } catch (error) {
             console.log(`Error checking results: ${error}`);
             return false;
@@ -41,6 +42,7 @@ export class SearchResultsPage {
      * @returns Promise<string[]> - Array of product titles
      */
     async getAllProductTitles(): Promise<string[]> {
+        await this.productTitleLinks.first().waitFor({ state: 'visible', timeout: 10000 });
         const count = await this.productTitleLinks.count();
         const titles: string[] = [];
         for (let i = 0; i < count; i++) {
@@ -54,7 +56,9 @@ export class SearchResultsPage {
      * @param productName - Product name to find and click
      */
     async clickProduct(productName: string): Promise<void> {
-        await this.page.locator('.product-thumb h4 a', { hasText: productName }).first().click();
+        const product = this.page.locator('.product-thumb h4 a', { hasText: productName }).first();
+        await product.waitFor({ state: 'visible', timeout: 10000 });
+        await product.click();
     }
 
     /**
@@ -63,7 +67,8 @@ export class SearchResultsPage {
      */
     async isSearchResultsPageExists(): Promise<boolean> {
         try {
-            return await this.productLayout.first().isVisible();
+            await this.productLayout.first().waitFor({ state: 'visible', timeout: 10000 });
+            return true;
         } catch (error) {
             console.log(`Error checking search results page: ${error}`);
             return false;
