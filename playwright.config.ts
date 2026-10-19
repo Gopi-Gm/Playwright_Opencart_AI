@@ -24,6 +24,11 @@ export default defineConfig({
     viewport: { width: 1280, height: 720 }, // Set default viewport size for consistency
     ignoreHTTPSErrors: true, // Ignore SSL errors if necessary
     permissions: ["geolocation"], // Set necessary permissions for geolocation-based tests
+    extraHTTPHeaders: {
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+      "Accept": "application/json, text/plain, */*",
+    },
   },
   grep: /@master/,
   projects: [
