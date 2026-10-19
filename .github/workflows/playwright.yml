@@ -66,14 +66,22 @@ jobs:
           $suite = "${{ github.event.inputs.test_suite || 'test:e2e' }}"
           $browser = "${{ github.event.inputs.browser || 'chromium' }}"
           $mode = "${{ github.event.inputs.mode || 'headless' }}"
-          $browserFlag = "--project=$browser"
-          $modeFlag = if ($mode -eq 'headed') { '--headed' } else { '' }
+
+          # Build args list — avoid passing empty strings (PowerShell passes "" as a literal arg, which Playwright treats as a wildcard file filter)
+          $pwArgs = @("playwright", "test")
           if ($suite -eq 'test:e2e' -or $suite -eq 'test:end-to-end') {
-            npx playwright test tests/web/e2e-shopping-flow.spec.ts $browserFlag $modeFlag --output=test-results
+            $pwArgs += "tests/web/e2e-shopping-flow.spec.ts"
           } else {
             $tag = $suite -replace 'test:', ''
-            npx playwright test --grep "@$tag" $browserFlag $modeFlag --output=test-results
+            $pwArgs += "--grep"
+            $pwArgs += "@$tag"
           }
+          $pwArgs += "--project=$browser"
+          if ($mode -eq 'headed') { $pwArgs += "--headed" }
+          $pwArgs += "--output=test-results"
+
+          Write-Host "Running: npx $($pwArgs -join ' ')"
+          & npx @pwArgs
         env:
           CI: "1"
 
