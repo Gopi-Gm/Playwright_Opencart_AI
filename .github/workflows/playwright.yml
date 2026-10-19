@@ -19,10 +19,11 @@ on:
           - test:sanity
           - test:regression
           - test:e2e
+          - test:end-to-end
           - test:api
           - test:web
           - test:datadriven
-        default: "test:e2e"
+        default: "test:master"
       browser:
         description: "Select browser"
         type: choice
@@ -64,10 +65,13 @@ jobs:
 
       - name: 🧪 Run Playwright Tests
         run: |
-          $suite = "${{ github.event.inputs.test_suite || 'test:e2e' }}"
+          $suite = "${{ github.event.inputs.test_suite || 'test:master' }}"
           $browser = "${{ github.event.inputs.browser || 'chromium' }}"
           $mode = "${{ github.event.inputs.mode || 'headless' }}"
           $tag = $suite -replace 'test:', ''
+          if ($tag -eq 'e2e' -or $tag -eq 'end-to-end') {
+            $tag = '(e2e|end-to-end)'
+          }
           $browserFlag = "--project=$browser"
           $modeFlag = if ($mode -eq 'headed') { '--headed' } else { '' }
           npx playwright test --grep "@$tag" $browserFlag $modeFlag --output=test-results
@@ -81,6 +85,7 @@ jobs:
           name: playwright-report
           path: reports/
           retention-days: 30
+          if-no-files-found: ignore
 
       - name: 📋 Upload Custom Report
         if: always()
@@ -89,6 +94,7 @@ jobs:
           name: custom-report
           path: custom-report/
           retention-days: 30
+          if-no-files-found: ignore
 
       - name: 📈 Upload Allure Results
         if: always()
@@ -97,3 +103,4 @@ jobs:
           name: allure-results
           path: allure-results/
           retention-days: 30
+          if-no-files-found: ignore

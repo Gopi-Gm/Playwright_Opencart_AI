@@ -1,7 +1,7 @@
 /**
  * Test Case: OpenCart UI + Admin + MySQL End-to-End Customer Registration Validation
  *
- * Tags: @master @end-to-end @db @regression
+ * Tags: @master @end-to-end @e2e @db @regression
  *
  * Steps:
  * 1) Register a unique customer through the frontend
@@ -17,7 +17,7 @@ const ADMIN_URL = process.env.ADMIN_URL || 'http://localhost/opencart/upload/adm
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || '';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
 
-test.describe('OpenCart Customer Registration - UI + Admin + DB Validation @master @end-to-end @db', () => {
+test.describe('OpenCart Customer Registration - UI + Admin + DB Validation @master @end-to-end @e2e @db', () => {
 
     test.skip('Register customer, verify in admin portal and MySQL @db', async () => {
         // Fixtures required when environment and admin/success page fixtures are wired:

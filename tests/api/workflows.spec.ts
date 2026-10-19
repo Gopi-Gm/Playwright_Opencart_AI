@@ -16,7 +16,7 @@ test.describe('End-to-End API Workflows', () => {
     // ---------------------------------------------------------
     // Workflow - Product CRUD Workflow (Scenario 32)
     // ---------------------------------------------------------
-    test('WORKFLOW - Product CRUD Workflow (Create -> Update -> Delete) @master @regression @api @end-to-end', async ({ request }) => {
+    test('WORKFLOW - Product CRUD Workflow (Create -> Update -> Delete) @master @regression @api @end-to-end @e2e', async ({ request }) => {
         let createdProductId: number;
         const newProductPayload = RandomDataUtil.generateProductPayload();
 
@@ -69,7 +69,7 @@ test.describe('End-to-End API Workflows', () => {
     // ---------------------------------------------------------
     // Workflow - User CRUD Workflow (Scenario 33)
     // ---------------------------------------------------------
-    test('WORKFLOW - User CRUD Workflow (Create -> Update -> Delete) @master @regression @api @end-to-end', async ({ request }) => {
+    test('WORKFLOW - User CRUD Workflow (Create -> Update -> Delete) @master @regression @api @end-to-end @e2e', async ({ request }) => {
         let createdUserId: number;
         const newUserPayload = RandomDataUtil.generateUserPayload();
 
@@ -120,7 +120,7 @@ test.describe('End-to-End API Workflows', () => {
     // ---------------------------------------------------------
     // Workflow - Cart CRUD Workflow (Scenario 34)
     // ---------------------------------------------------------
-    test('WORKFLOW - Cart CRUD Workflow (Create -> Update -> Delete) @master @regression @api @end-to-end', async ({ request }) => {
+    test('WORKFLOW - Cart CRUD Workflow (Create -> Update -> Delete) @master @regression @api @end-to-end @e2e', async ({ request }) => {
         let createdCartId: number;
         const newCartPayload = RandomDataUtil.generateCartPayload(USER_ID);
 
