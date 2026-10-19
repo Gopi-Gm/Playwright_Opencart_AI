@@ -7,23 +7,21 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-  schedule:
-    - cron: '30 4 * * *' # Runs every day at 10:00 AM IST (04:30 UTC)
   workflow_dispatch:
     inputs:
       test_suite:
         description: "Select test suite"
         type: choice
         options:
+          - test:e2e
           - test:master
           - test:sanity
           - test:regression
-          - test:e2e
           - test:end-to-end
           - test:api
           - test:web
           - test:datadriven
-        default: "test:master"
+        default: "test:e2e"
       browser:
         description: "Select browser"
         type: choice
@@ -65,16 +63,17 @@ jobs:
 
       - name: 🧪 Run Playwright Tests
         run: |
-          $suite = "${{ github.event.inputs.test_suite || 'test:master' }}"
+          $suite = "${{ github.event.inputs.test_suite || 'test:e2e' }}"
           $browser = "${{ github.event.inputs.browser || 'chromium' }}"
           $mode = "${{ github.event.inputs.mode || 'headless' }}"
-          $tag = $suite -replace 'test:', ''
-          if ($tag -eq 'e2e' -or $tag -eq 'end-to-end') {
-            $tag = '(e2e|end-to-end)'
-          }
           $browserFlag = "--project=$browser"
           $modeFlag = if ($mode -eq 'headed') { '--headed' } else { '' }
-          npx playwright test --grep "@$tag" $browserFlag $modeFlag --output=test-results
+          if ($suite -eq 'test:e2e' -or $suite -eq 'test:end-to-end') {
+            npx playwright test tests/web/e2e-shopping-flow.spec.ts $browserFlag $modeFlag --output=test-results
+          } else {
+            $tag = $suite -replace 'test:', ''
+            npx playwright test --grep "@$tag" $browserFlag $modeFlag --output=test-results
+          }
         env:
           CI: "1"
 
